@@ -1,17 +1,15 @@
-# architect
+FlutterTest
+— это мобильное приложение для проведения тестов, где учитель создаёт задания, а ученик их решает.
+Особенность в том, что обмен данными происходит через специальные коды, а не через сервер.
 
-A new Flutter project.
+Как запустить
+1. Выполнить "flutter pub get"
+2. Запустить проект через "flutter run"
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Команда:<br>
+Core Architect - Загудаев Александр<br>
+Teacher Module - Брычев Игорь<br>
+Student Module - Ларин Илья<br>
+UI/UX Design - Анастасия Богославская<br>
+Data & Storage - Егор Понарин<br>
+Integration & API - Михаил Крупеня
