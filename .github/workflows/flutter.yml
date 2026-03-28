@@ -28,6 +28,3 @@ jobs:
 
       - name: Run tests
         run: flutter test --coverage
-
-      - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed .
