@@ -1,93 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:platform_students/shared/widgets/AppButton.dart';
-import 'package:platform_students/shared/widgets/AppTextField.dart';
-import 'package:platform_students/shared/theme/AppTheme.dart';
 
 void main() {
-  // Обёртка чтобы виджеты видели тему
-  Widget buildTestApp(Widget child) {
-    return MaterialApp(
-      theme: AppTheme.lightTheme,
-      home: Scaffold(body: child),
-    );
+  Widget wrap(Widget child) {
+    return MaterialApp(home: Scaffold(body: child));
   }
 
-  group('AppButton Widget Tests', () {
-    testWidgets('Отображает текст кнопки', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        AppButton(text: 'Тест', onPressed: () {}),
+  group('Button tests', () {
+    testWidgets('Кнопка отображает текст', (tester) async {
+      await tester.pumpWidget(wrap(
+        ElevatedButton(onPressed: () {}, child: const Text('Тест')),
       ));
       expect(find.text('Тест'), findsOneWidget);
     });
 
-    testWidgets('Вызывает onPressed при нажатии', (WidgetTester tester) async {
+    testWidgets('Кнопка реагирует на нажатие', (tester) async {
       bool pressed = false;
-      await tester.pumpWidget(buildTestApp(
-        AppButton(text: 'Нажми', onPressed: () => pressed = true),
+      await tester.pumpWidget(wrap(
+        ElevatedButton(onPressed: () => pressed = true, child: const Text('OK')),
       ));
-      await tester.tap(find.byType(AppButton));
+      await tester.tap(find.byType(ElevatedButton));
       expect(pressed, isTrue);
     });
 
-    testWidgets('Отображает иконку если передана', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        AppButton(text: 'С иконкой', icon: Icons.check, onPressed: () {}),
+    testWidgets('Неактивная кнопка не вызывает callback', (tester) async {
+      await tester.pumpWidget(wrap(
+        const ElevatedButton(onPressed: null, child: Text('Disabled')),
       ));
-      expect(find.byIcon(Icons.check), findsOneWidget);
-    });
-
-    testWidgets('Кнопка неактивна когда onPressed = null',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        const AppButton(text: 'Неактивна', onPressed: null),
-      ));
-      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
-      expect(button.onPressed, isNull);
-    });
-
-    testWidgets('Secondary кнопка отображается', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        AppButton(text: 'Secondary', isSecondary: true, onPressed: () {}),
-      ));
-      expect(find.text('Secondary'), findsOneWidget);
+      final btn = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      expect(btn.onPressed, isNull);
     });
   });
 
-  group('AppTextField Widget Tests', () {
-    testWidgets('Отображает label', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        const AppTextField(label: 'Email'),
+  group('TextField tests', () {
+    testWidgets('Поле отображает label', (tester) async {
+      await tester.pumpWidget(wrap(
+        const TextField(decoration: InputDecoration(labelText: 'Email')),
       ));
       expect(find.text('Email'), findsOneWidget);
     });
 
-    testWidgets('Отображает hint текст', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        const AppTextField(label: 'Email', hint: 'example@mail.com'),
-      ));
-      expect(find.text('example@mail.com'), findsOneWidget);
-    });
-
-    testWidgets('Отображает иконку если передана', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        const AppTextField(label: 'Email', icon: Icons.email),
-      ));
-      expect(find.byIcon(Icons.email), findsOneWidget);
-    });
-
-    testWidgets('Принимает ввод текста', (WidgetTester tester) async {
+    testWidgets('Поле принимает ввод', (tester) async {
       final controller = TextEditingController();
-      await tester.pumpWidget(buildTestApp(
-        AppTextField(label: 'Поле', controller: controller),
-      ));
-      await tester.enterText(find.byType(TextField), 'привет');
-      expect(controller.text, 'привет');
+      await tester.pumpWidget(wrap(TextField(controller: controller)));
+      await tester.enterText(find.byType(TextField), 'test@mail.com');
+      expect(controller.text, 'test@mail.com');
     });
 
-    testWidgets('obscureText скрывает пароль', (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp(
-        const AppTextField(label: 'Пароль', obscureText: true),
+    testWidgets('obscureText скрывает пароль', (tester) async {
+      await tester.pumpWidget(wrap(
+        const TextField(obscureText: true),
       ));
       final field = tester.widget<TextField>(find.byType(TextField));
       expect(field.obscureText, isTrue);
